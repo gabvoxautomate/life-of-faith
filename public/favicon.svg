@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Life of Faith monogram">
+  <rect width="64" height="64" rx="12" fill="#f4efe9"/>
+  <path d="M20 15v34h6V35h11.5C45 35 49 31 49 25.5S45 16 37.5 16H20zm6 6h11.5c6.5 0 9.5 3 9.5 9.5S43.5 29 37.5 29H26V21z" fill="#761b2c"/>
+  <path d="M31 8v48M8 31h46" stroke="#d7c29a" stroke-width="2.8" stroke-linecap="round"/>
+</svg>
