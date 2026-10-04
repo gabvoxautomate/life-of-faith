@@ -250,6 +250,28 @@ button {
   max-width: 560px;
 }
 
+.hero-copy h2.hero-names {
+  max-width: none;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  line-height: 1.05;
+  letter-spacing: 0;
+  text-wrap: pretty;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.couple-name {
+  display: block;
+}
+
+.couple-ampersand {
+  display: block;
+  margin: 0.12em 0;
+  font-size: 0.62em;
+  font-weight: 400;
+  line-height: 0.9;
+}
+
 .hero-meta {
   margin-top: 1rem;
   font-size: 1.05rem;
@@ -408,6 +430,23 @@ button {
 .story-card {
   display: grid;
   gap: 1.35rem;
+}
+
+.story-name {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.45rem, 2.2vw, 2rem);
+  font-weight: 500;
+  text-align: center;
+}
+
+.story-formal-name {
+  margin: -1rem 0 0;
+  color: var(--burgundy-700);
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  text-align: center;
+  overflow-wrap: anywhere;
 }
 
 .portrait-frame {
@@ -755,8 +794,26 @@ button {
   font-family: var(--serif);
   font-size: clamp(2rem, 3vw, 3rem);
   color: var(--burgundy-900);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.closing-formal-names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  max-width: 100%;
+  margin: 0.4rem auto 0;
+  color: var(--burgundy-700);
+  font-family: var(--serif);
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+  overflow-wrap: anywhere;
+}
+
+.closing-formal-names span {
+  min-width: 0;
 }
 
 .closing-tagline {
@@ -853,10 +910,12 @@ button {
   margin: 0;
   font-family: var(--serif);
   color: var(--burgundy-900);
-  font-size: clamp(3.1rem, min(8.8vw, 12vh), 8.4rem);
-  line-height: 0.92;
-  letter-spacing: -0.08em;
+  font-size: clamp(1.2rem, 4.2vw, 2.4rem);
+  line-height: 1.05;
+  letter-spacing: 0;
   font-weight: 700;
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
 }
 
 .intro-divider {
@@ -898,7 +957,11 @@ button {
   }
 
   .intro-screen h1 {
-    font-size: clamp(2.5rem, 17vw, 4rem);
+    font-size: clamp(1.1rem, 5.5vw, 1.65rem);
+  }
+
+  .intro-screen .couple-ampersand {
+    margin: 0.18em 0;
   }
 
   .intro-tagline,
@@ -1181,7 +1244,7 @@ button {
   }
 
   .intro-screen h1 {
-    font-size: clamp(2.5rem, 15vw, 3.8rem);
+    font-size: clamp(1rem, 5vw, 1.35rem);
   }
 
   .intro-tagline,

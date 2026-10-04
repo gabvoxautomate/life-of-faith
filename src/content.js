@@ -1,4 +1,6 @@
 export const weddingContent = {
+  groomName: 'Israel Oluwadamilare Oke',
+  brideName: 'Toluwalope Esther Akinrotimi',
   brand: 'LIFE OF FAITH',
   tagline: 'Two lives. One covenant. One journey.',
   dateLabel: 'Saturday, December 26, 2026',

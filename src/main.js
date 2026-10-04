@@ -1,7 +1,7 @@
 import './style.css'
 import { weddingContent } from './content.js'
 
-const { brand, tagline, dateLabel, time, venue, venueStreet, venueState, googleMapsUrl, rsvp, support, gallery } = weddingContent
+const { groomName, brideName, brand, tagline, dateLabel, time, venue, venueStreet, venueState, googleMapsUrl, rsvp, support, gallery } = weddingContent
 
 const app = document.querySelector('#app')
 
@@ -12,8 +12,12 @@ app.innerHTML = `
       <div class="logo-intro">
         <img class="logo-intro-image" src="/images/logo.png" alt="Life of Faith logo" />
       </div>
-      <p class="intro-label">The beginning of a beautiful covenant</p>
-      <h1>${brand}</h1>
+      <p class="intro-label">Together with their families,</p>
+      <h1 aria-label="${groomName} and ${brideName}">
+        <span class="couple-name">${groomName}</span>
+        <span class="couple-ampersand" aria-hidden="true">&amp;</span>
+        <span class="couple-name">${brideName}</span>
+      </h1>
       <div class="intro-divider" aria-hidden="true"></div>
       <p class="intro-tagline">${tagline}</p>
       <p class="intro-date">${dateLabel}</p>
@@ -54,7 +58,11 @@ app.innerHTML = `
       <section id="home" class="hero-section section-shell">
         <div class="hero-copy">
           <p class="eyebrow">LIFE OF FAITH</p>
-          <h2>Two lives. One covenant. One journey.</h2>
+          <h2 class="hero-names" aria-label="${groomName} and ${brideName}">
+            <span class="couple-name">${groomName}</span>
+            <span class="couple-ampersand" aria-hidden="true">&amp;</span>
+            <span class="couple-name">${brideName}</span>
+          </h2>
           <p class="hero-meta">${dateLabel}</p>
           <p class="hero-meta">${time}</p>
           <div class="hero-actions">
@@ -74,7 +82,7 @@ app.innerHTML = `
       <section id="story" class="story-section section-shell">
         <div class="section-intro centered">
           <p class="eyebrow">OUR STORY</p>
-          <h2>Grace has brought her to this beautiful chapter, and faith leads her into the next.</h2>
+          <h2>Israel &amp; Toluwalope invite you to celebrate their story of faith, love, and covenant.</h2>
         </div>
 
         <div class="story-grid">
@@ -82,13 +90,17 @@ app.innerHTML = `
             <figure class="photo-frame portrait-frame" data-gallery-index="1">
               <img src="${gallery[1].src}" alt="${gallery[1].alt}" loading="lazy" />
             </figure>
-            <p class="quote">Grace has brought her to this beautiful chapter, and faith leads her into the next.</p>
+            <h3 class="story-name">Toluwalope</h3>
+            <p class="story-formal-name">Toluwalope Esther Akinrotimi</p>
+            <p class="quote">Grace has brought Toluwalope to this beautiful chapter, and faith leads her into the next.</p>
           </article>
 
           <article class="story-card">
             <figure class="photo-frame portrait-frame" data-gallery-index="2">
               <img src="${gallery[2].src}" alt="${gallery[2].alt}" loading="lazy" />
             </figure>
+            <h3 class="story-name">Israel</h3>
+            <p class="story-formal-name">Israel Oluwadamilare Oke</p>
             <p class="quote">A life shaped by faith, a heart prepared for love, and a future embraced with grace.</p>
           </article>
         </div>
@@ -101,7 +113,7 @@ app.innerHTML = `
           </figure>
           <div class="covenant-copy">
             <p class="eyebrow">COVENANT</p>
-            <h2>Hand in hand, heart to heart, they choose to walk this journey together.</h2>
+            <h2>Israel and Toluwalope choose to walk this journey together, hand in hand and heart to heart.</h2>
           </div>
         </div>
       </section>
@@ -122,7 +134,7 @@ app.innerHTML = `
         </figure>
         <div class="section-intro centered narrow">
           <p class="eyebrow">IN JOY</p>
-          <h2>With joyful hearts, they step forward into a future filled with love, purpose, and grace.</h2>
+          <h2>With joyful hearts, Israel and Toluwalope step forward into a future filled with love, purpose, and grace.</h2>
         </div>
       </section>
 
@@ -198,8 +210,9 @@ app.innerHTML = `
 
         <div class="closing-copy">
           <p class="eyebrow">SEASON OF LOVE</p>
-          <h2>In the little moments, in the laughter, and in the journey ahead, they choose each other.</h2>
-          <p class="closing-signature">${brand}</p>
+          <h2>In the little moments, in the laughter, and in the journey ahead, Israel and Toluwalope choose each other.</h2>
+          <p class="closing-signature">Israel &amp; Toluwalope</p>
+          <p class="closing-formal-names"><span>${groomName}</span><span aria-hidden="true">&amp;</span><span>${brideName}</span></p>
           <p class="closing-tagline">${tagline}</p>
           <p class="closing-thanks">Thank you for celebrating with us.</p>
         </div>
