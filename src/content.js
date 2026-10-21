@@ -2,16 +2,16 @@ export const weddingContent = {
   groomName: 'Israel Oluwadamilare Oke',
   brideName: 'Toluwalope Esther Akinrotimi',
   brand: 'LIFE OF FAITH',
-  tagline: 'Two lives. One covenant. One journey.',
+  tagline: 'And they shall become one flesh',
   dateLabel: 'Saturday, December 26, 2026',
   weddingDay: 'Saturday',
   weddingMonthDay: 'December 26, 2026',
-  time: '12:00 Noon',
-  venue: 'Hillspring Hotel',
-  venueStreet: 'Ondo Road, Modakeke',
+  time: '8:00 AM',
+  venue: "Our Lady's Girls High School",
+  venueStreet: 'Modakeke',
   venueState: 'Osun State, Nigeria',
   googleMapsUrl:
-    'https://www.google.com/maps/search/?api=1&query=Hillspring+Hotel+Ondo+Road+Modakeke+Osun+State+Nigeria',
+    'https://www.google.com/maps/search/?api=1&query=Our+Lady%27s+Girls+High+School+Modakeke+Osun+State+Nigeria',
   rsvp: [
     { name: 'Gbemi', phone: '0812 427 1219' },
     { name: 'Israel', phone: '0815 956 7170' }

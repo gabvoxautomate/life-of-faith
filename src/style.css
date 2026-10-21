@@ -730,6 +730,30 @@ button {
   text-align: center;
 }
 
+.support-card.is-revealed {
+  animation: support-card-arrive 720ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+@keyframes support-card-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+    box-shadow: 0 0 0 rgba(84, 15, 34, 0);
+  }
+
+  65% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 22px 48px rgba(84, 15, 34, 0.16);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow: var(--shadow-card);
+  }
+}
+
 .support-number,
 .support-bank,
 .support-name {
@@ -1295,4 +1319,3 @@ button {
     animation: none !important;
   }
 }
-

@@ -325,6 +325,21 @@ musicToggle.addEventListener('click', async () => {
 
 const copyButton = document.querySelector('[data-copy-account]')
 const feedback = document.querySelector('.copy-feedback')
+const supportCard = document.querySelector('.support-card')
+
+if ('IntersectionObserver' in window) {
+  const supportObserver = new IntersectionObserver(
+    ([entry]) => {
+      if (!entry.isIntersecting) return
+      supportCard.classList.add('is-revealed')
+      supportObserver.disconnect()
+    },
+    { threshold: 0.25 }
+  )
+  supportObserver.observe(supportCard)
+} else {
+  supportCard.classList.add('is-revealed')
+}
 
 copyButton.addEventListener('click', async () => {
   const value = support.accountNumber
@@ -378,7 +393,7 @@ function getZonedTimestamp(year, month, day, hour, minute, timeZone) {
   return timestamp
 }
 
-const weddingTarget = getZonedTimestamp(2026, 12, 26, 12, 0, weddingTimezone)
+const weddingTarget = getZonedTimestamp(2026, 12, 26, 8, 0, weddingTimezone)
 let countdownInterval = null
 
 function updateCountdown() {
