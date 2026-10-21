@@ -272,29 +272,105 @@ function setMusicLabel(playing) {
   const label = toggle?.querySelector('.music-text')
   if (!toggle || !label) return
 
-  toggle.classList.toggle('is-playing', playing)
-  label.textContent = playing ? 'Pause' : 'Music'
-  toggle.setAttribute('aria-label', playing ? 'Pause music' : 'Play music')
+  const status = typeof playing === 'string' ? playing : playing ? 'playing' : 'paused'
+  toggle.classList.toggle('is-playing', status === 'playing')
+  toggle.classList.toggle('is-loading', status === 'loading')
+  label.textContent = status === 'playing' ? 'Pause' : status === 'loading' ? 'Loading music' : 'Music'
+  toggle.setAttribute(
+    'aria-label',
+    status === 'playing' ? 'Pause music' : status === 'loading' ? 'Music is loading' : 'Play music'
+  )
+}
+
+let musicRequested = false
+let musicRetryTimer = null
+let musicRetryDelay = 1000
+let musicResumeAt = null
+
+function clearMusicRetry() {
+  if (musicRetryTimer === null) return
+  window.clearTimeout(musicRetryTimer)
+  musicRetryTimer = null
+}
+
+function scheduleMusicRetry() {
+  if (!musicRequested || !navigator.onLine || musicRetryTimer !== null) return
+
+  const delay = musicRetryDelay
+  musicRetryDelay = Math.min(musicRetryDelay * 2, 30000)
+  musicRetryTimer = window.setTimeout(() => {
+    musicRetryTimer = null
+    if (!musicRequested) return
+
+    if (audio.error) {
+      if (musicResumeAt === null && Number.isFinite(audio.currentTime)) {
+        musicResumeAt = audio.currentTime
+      }
+      audio.load()
+      return
+    }
+
+    void startMusic()
+  }, delay)
 }
 
 async function startMusic() {
+  musicRequested = true
+  setMusicLabel('loading')
+
   try {
     await audio.play()
-    setMusicLabel(true)
-  } catch {
-    setMusicLabel(false)
+    musicRetryDelay = 1000
+    clearMusicRetry()
+    setMusicLabel('playing')
+  } catch (error) {
+    console.warn('Wedding music could not start; it will retry while music is requested.', error)
+    scheduleMusicRetry()
   }
 }
 
 function stopMusic() {
+  musicRequested = false
+  musicResumeAt = null
+  musicRetryDelay = 1000
+  clearMusicRetry()
   audio.pause()
   setMusicLabel(false)
 }
 
+audio.addEventListener('waiting', () => {
+  if (musicRequested) setMusicLabel('loading')
+})
+audio.addEventListener('playing', () => {
+  musicRetryDelay = 1000
+  clearMusicRetry()
+  setMusicLabel('playing')
+})
+audio.addEventListener('error', () => {
+  if (!musicRequested) return
+  setMusicLabel('loading')
+  scheduleMusicRetry()
+})
+audio.addEventListener('stalled', () => {
+  if (musicRequested) setMusicLabel('loading')
+})
+audio.addEventListener('loadedmetadata', () => {
+  if (musicResumeAt === null || !musicRequested) return
+
+  if (musicResumeAt > 0 && Number.isFinite(audio.duration)) {
+    audio.currentTime = Math.min(musicResumeAt, audio.duration)
+  }
+  musicResumeAt = null
+  void startMusic()
+})
+window.addEventListener('online', () => {
+  if (musicRequested && audio.paused) scheduleMusicRetry()
+})
+
 function handleIntroAction(action) {
   openInvitation()
   if (action === 'enter') {
-    startMusic()
+    void startMusic()
   }
   if (action === 'skip') {
     stopMusic()
@@ -314,31 +390,31 @@ siteNav.querySelectorAll('a').forEach((link) => {
 })
 
 const musicToggle = document.querySelector('[data-music-toggle]')
-musicToggle.addEventListener('click', async () => {
-  if (audio.paused) {
-    await startMusic()
+musicToggle.addEventListener('click', () => {
+  if (musicRequested) {
+    stopMusic()
     return
   }
 
-  stopMusic()
+  void startMusic()
 })
 
 const copyButton = document.querySelector('[data-copy-account]')
 const feedback = document.querySelector('.copy-feedback')
-const supportCard = document.querySelector('.support-card')
+const supportSection = document.querySelector('.support-section')
 
 if ('IntersectionObserver' in window) {
   const supportObserver = new IntersectionObserver(
     ([entry]) => {
       if (!entry.isIntersecting) return
-      supportCard.classList.add('is-revealed')
+      supportSection.classList.add('is-revealed')
       supportObserver.disconnect()
     },
-    { threshold: 0.25 }
+    { threshold: 0.2 }
   )
-  supportObserver.observe(supportCard)
+  supportObserver.observe(supportSection)
 } else {
-  supportCard.classList.add('is-revealed')
+  supportSection.classList.add('is-revealed')
 }
 
 copyButton.addEventListener('click', async () => {

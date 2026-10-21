@@ -720,6 +720,8 @@ button {
 }
 
 .support-card {
+  position: relative;
+  isolation: isolate;
   max-width: 640px;
   margin: 2.25rem auto 0;
   padding: 2rem 1.5rem;
@@ -728,29 +730,138 @@ button {
   background: rgba(255, 255, 255, 0.4);
   box-shadow: var(--shadow-card);
   text-align: center;
+  overflow: hidden;
 }
 
-.support-card.is-revealed {
-  animation: support-card-arrive 720ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+.support-section.is-revealed .section-intro {
+  animation: support-heading-arrive 650ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.support-section.is-revealed .support-card {
+  animation: support-card-arrive 820ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+}
+
+.support-card::before,
+.support-card::after {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+}
+
+.support-card::before {
+  background: radial-gradient(ellipse at 50% 0, rgba(230, 208, 160, 0.46), transparent 68%);
+  opacity: 0;
+}
+
+.support-section.is-revealed .support-card::before {
+  animation: support-card-glow 1.5s ease-out 200ms both;
+}
+
+.support-card::after {
+  inset: -50% auto -50% -45%;
+  width: 35%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent);
+  opacity: 0;
+  transform: rotate(18deg);
+}
+
+.support-section.is-revealed .support-card::after {
+  animation: support-card-sheen 1.15s ease-out 260ms both;
+}
+
+.support-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.support-section.is-revealed .support-number {
+  animation: support-detail-arrive 480ms cubic-bezier(0.16, 1, 0.3, 1) 300ms both;
+}
+
+.support-section.is-revealed .support-bank,
+.support-section.is-revealed .support-name {
+  animation: support-detail-arrive 420ms ease-out 390ms both;
+}
+
+.support-section.is-revealed .copy-button {
+  animation: support-detail-arrive 440ms cubic-bezier(0.16, 1, 0.3, 1) 480ms both;
+}
+
+@keyframes support-heading-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes support-card-arrive {
   from {
     opacity: 0;
-    transform: translateY(24px) scale(0.96);
+    transform: translateY(34px) scale(0.9);
     box-shadow: 0 0 0 rgba(84, 15, 34, 0);
   }
 
-  65% {
+  72% {
     opacity: 1;
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 22px 48px rgba(84, 15, 34, 0.16);
+    transform: translateY(-6px) scale(1.025);
+    box-shadow: 0 24px 54px rgba(84, 15, 34, 0.2);
   }
 
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
     box-shadow: var(--shadow-card);
+  }
+}
+
+@keyframes support-card-glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.35;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes support-card-sheen {
+  0% {
+    opacity: 0;
+    transform: translateX(0) rotate(18deg);
+  }
+
+  20% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(520%) rotate(18deg);
+  }
+}
+
+@keyframes support-detail-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
