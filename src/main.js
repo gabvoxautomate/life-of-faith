@@ -195,10 +195,14 @@ app.innerHTML = `
         </div>
 
         <div class="support-card">
-          <p class="support-number">${support.accountNumber}</p>
-          <p class="support-bank">${support.bank}</p>
-          <p class="support-name">${support.accountName}</p>
-          <button type="button" class="copy-button" data-copy-account>${support.accountNumber}</button>
+          <div class="support-details">
+            <p class="support-label">GIFT &amp; SUPPORT ACCOUNT</p>
+            <p class="support-number">${support.accountNumber}</p>
+            <span class="support-divider" aria-hidden="true"></span>
+            <p class="support-bank">${support.bank}</p>
+            <p class="support-name">${support.accountName}</p>
+          </div>
+          <button type="button" class="copy-button" data-copy-account>Copy account number</button>
           <p class="copy-feedback" aria-live="polite"> </p>
         </div>
       </section>
@@ -403,18 +407,27 @@ const copyButton = document.querySelector('[data-copy-account]')
 const feedback = document.querySelector('.copy-feedback')
 const supportSection = document.querySelector('.support-section')
 
+function updateSupportReveal(isVisible) {
+  supportSection.classList.toggle('is-revealed', isVisible)
+}
+
 if ('IntersectionObserver' in window) {
   const supportObserver = new IntersectionObserver(
     ([entry]) => {
-      if (!entry.isIntersecting) return
-      supportSection.classList.add('is-revealed')
-      supportObserver.disconnect()
+      updateSupportReveal(entry.isIntersecting)
     },
-    { threshold: 0.2 }
+    { rootMargin: '-8% 0px', threshold: 0 }
   )
   supportObserver.observe(supportSection)
 } else {
-  supportSection.classList.add('is-revealed')
+  const checkSupportVisibility = () => {
+    const bounds = supportSection.getBoundingClientRect()
+    updateSupportReveal(bounds.bottom > innerHeight * 0.08 && bounds.top < innerHeight * 0.92)
+  }
+
+  window.addEventListener('scroll', checkSupportVisibility, { passive: true })
+  window.addEventListener('resize', checkSupportVisibility)
+  checkSupportVisibility()
 }
 
 copyButton.addEventListener('click', async () => {

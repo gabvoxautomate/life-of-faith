@@ -724,13 +724,54 @@ button {
   isolation: isolate;
   max-width: 640px;
   margin: 2.25rem auto 0;
-  padding: 2rem 1.5rem;
-  border-radius: 1.25rem;
-  border: 1px solid var(--border-soft);
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: var(--shadow-card);
+  padding: 1rem;
+  border: 1px solid rgba(132, 94, 51, 0.38);
+  border-radius: 2rem;
+  background: #eee4d6;
+  box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.75);
   text-align: center;
   overflow: hidden;
+}
+
+.support-card::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse at 50% 0, rgba(230, 208, 160, 0.92), transparent 68%),
+    linear-gradient(120deg, rgba(110, 26, 45, 0.4), rgba(212, 181, 125, 0.62) 48%, rgba(132, 30, 49, 0.38));
+  background-size: 100% 100%, 220% 220%;
+  background-position: 50% 0, 0% 50%;
+  content: '';
+  opacity: 0.52;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+}
+
+.support-section.is-revealed .support-card::before {
+  animation: support-card-glow 3.2s ease-in-out 120ms infinite;
+}
+
+.support-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.support-details {
+  padding: clamp(1.6rem, 4vw, 2.5rem) 1.25rem 1.7rem;
+  border: 1px solid rgba(84, 15, 34, 0.11);
+  border-radius: 1.55rem;
+  background: var(--warm-white);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.support-label {
+  margin: 0 0 0.8rem;
+  color: var(--brown-700);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
 }
 
 .support-section.is-revealed .section-intro {
@@ -741,43 +782,20 @@ button {
   animation: support-card-arrive 820ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
 }
 
-.support-card::before,
-.support-card::after {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  content: '';
-  pointer-events: none;
-}
-
-.support-card::before {
-  background: radial-gradient(ellipse at 50% 0, rgba(230, 208, 160, 0.46), transparent 68%);
-  opacity: 0;
-}
-
-.support-section.is-revealed .support-card::before {
-  animation: support-card-glow 1.5s ease-out 200ms both;
-}
-
-.support-card::after {
-  inset: -50% auto -50% -45%;
-  width: 35%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent);
-  opacity: 0;
-  transform: rotate(18deg);
-}
-
-.support-section.is-revealed .support-card::after {
-  animation: support-card-sheen 1.15s ease-out 260ms both;
-}
-
-.support-card > * {
-  position: relative;
-  z-index: 1;
+.support-section.is-revealed .support-label {
+  animation: support-detail-arrive 420ms ease-out 250ms both;
 }
 
 .support-section.is-revealed .support-number {
   animation: support-detail-arrive 480ms cubic-bezier(0.16, 1, 0.3, 1) 300ms both;
+}
+
+.support-divider {
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin: 1.1rem auto;
+  background: var(--gold-300);
 }
 
 .support-section.is-revealed .support-bank,
@@ -822,34 +840,15 @@ button {
 }
 
 @keyframes support-card-glow {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-
-  40% {
-    opacity: 1;
-  }
-
+  0%,
   100% {
-    opacity: 0.35;
-    transform: scale(1.1);
-  }
-}
-
-@keyframes support-card-sheen {
-  0% {
-    opacity: 0;
-    transform: translateX(0) rotate(18deg);
+    opacity: 0.44;
+    background-position: 50% 0, 0% 50%;
   }
 
-  20% {
-    opacity: 0.8;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateX(520%) rotate(18deg);
+  50% {
+    opacity: 0.88;
+    background-position: 50% 0, 100% 50%;
   }
 }
 
@@ -873,7 +872,10 @@ button {
 
 .support-number {
   font-family: var(--serif);
-  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   color: var(--burgundy-900);
 }
 
@@ -889,18 +891,28 @@ button {
 
 .support-name {
   margin-top: 0.25rem;
+  font-family: var(--serif);
+  font-size: 1.15rem;
 }
 
 .copy-button {
   margin-top: 1.2rem;
-  border: 1px solid rgba(84, 15, 34, 0.22);
-  background: rgba(132, 30, 49, 0.06);
-  color: var(--burgundy-900);
-  padding: 0.76rem 1.2rem;
+  border: 1px solid rgba(84, 15, 34, 0.2);
+  background: var(--burgundy-900);
+  color: var(--warm-white);
+  padding: 0.82rem 1.35rem;
   border-radius: 999px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   font-size: 0.68rem;
+  transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
+}
+
+.copy-button:hover,
+.copy-button:focus-visible {
+  transform: translateY(-2px);
+  background: var(--burgundy-700);
+  box-shadow: 0 8px 20px rgba(84, 15, 34, 0.2);
 }
 
 .copy-feedback {
@@ -1428,5 +1440,14 @@ button {
 
   .photo-frame img {
     animation: none !important;
+  }
+
+  .support-section.is-revealed .support-card {
+    animation: none !important;
+  }
+
+  .support-section.is-revealed .support-card::before {
+    animation: none !important;
+    opacity: 0.68;
   }
 }
