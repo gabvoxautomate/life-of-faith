@@ -407,14 +407,16 @@ const copyButton = document.querySelector('[data-copy-account]')
 const feedback = document.querySelector('.copy-feedback')
 const supportSection = document.querySelector('.support-section')
 
-function updateSupportReveal(isVisible) {
-  supportSection.classList.toggle('is-revealed', isVisible)
+function revealSupportSection() {
+  supportSection.classList.add('is-revealed')
 }
 
 if ('IntersectionObserver' in window) {
   const supportObserver = new IntersectionObserver(
     ([entry]) => {
-      updateSupportReveal(entry.isIntersecting)
+      if (!entry.isIntersecting) return
+      revealSupportSection()
+      supportObserver.disconnect()
     },
     { rootMargin: '-8% 0px', threshold: 0 }
   )
@@ -422,7 +424,12 @@ if ('IntersectionObserver' in window) {
 } else {
   const checkSupportVisibility = () => {
     const bounds = supportSection.getBoundingClientRect()
-    updateSupportReveal(bounds.bottom > innerHeight * 0.08 && bounds.top < innerHeight * 0.92)
+    const isVisible = bounds.bottom > innerHeight * 0.08 && bounds.top < innerHeight * 0.92
+    if (!isVisible) return
+
+    revealSupportSection()
+    window.removeEventListener('scroll', checkSupportVisibility)
+    window.removeEventListener('resize', checkSupportVisibility)
   }
 
   window.addEventListener('scroll', checkSupportVisibility, { passive: true })
